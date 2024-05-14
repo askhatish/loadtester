@@ -8,7 +8,7 @@ It supports generating concurrent HTTP requests at a specified QPS rate, collect
 
 # Basic commands
 - Building the project: `./gradlew clean build`
-- Running unit tests: `./gradlew :test`
+- Running unit tests: `./gradlew test`
 - Launching locally: `./gradlew :app:run --args="<url> <method> <qps> <duration>"`
 
 # Docker
