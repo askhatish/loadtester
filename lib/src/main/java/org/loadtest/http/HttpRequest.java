@@ -1,5 +1,6 @@
 package org.loadtest.http;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,12 +9,12 @@ import java.util.Map;
  */
 public class HttpRequest {
     private String method;
-    private String url;
+    private URL url;
     private Map<String, String> headers;
     private String payload;
-    private int connectionTimeout;
+    private int connectionTimeoutMillis;
 
-    public HttpRequest(final String method, final String url) {
+    public HttpRequest(final URL url, final String method) {
         this.method = method;
         this.url = url;
         headers = new HashMap<>();
@@ -29,11 +30,11 @@ public class HttpRequest {
         this.method = method;
     }
 
-    public String getUrl() {
+    public URL getUrl() {
         return url;
     }
 
-    public void setUrl(final String url) {
+    public void setUrl(final URL url) {
         this.url = url;
     }
 
@@ -59,11 +60,11 @@ public class HttpRequest {
         this.payload = payload;
     }
 
-    public int getConnectionTimeout() {
-        return connectionTimeout;
+    public int getConnectionTimeoutMillis() {
+        return connectionTimeoutMillis;
     }
 
-    public void setConnectionTimeout(final int connectionTimeout) {
-        this.connectionTimeout = connectionTimeout;
+    public void setConnectionTimeoutMillis(final int connectionTimeoutMillis) {
+        this.connectionTimeoutMillis = connectionTimeoutMillis;
     }
 }

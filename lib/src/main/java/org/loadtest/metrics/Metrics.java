@@ -5,24 +5,24 @@ import org.loadtest.http.HttpResponse;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.DoubleAdder;
 
-public class Aggregator {
+public class Metrics {
     private final AtomicInteger totalRequests;
     private final AtomicInteger errorCount;
     private final DoubleAdder totalLatency;
 
-    private static volatile Aggregator instance;
+    private static volatile Metrics instance;
 
-    private Aggregator() {
+    private Metrics() {
         totalLatency = new DoubleAdder();
         errorCount = new AtomicInteger();
         totalRequests = new AtomicInteger();
     }
 
-    public static Aggregator getInstance() {
+    public static Metrics getInstance() {
         if (instance == null) {
-            synchronized (Aggregator.class) {
+            synchronized (Metrics.class) {
                 if (instance == null) {
-                    instance = new Aggregator();
+                    instance = new Metrics();
                 }
             }
         }

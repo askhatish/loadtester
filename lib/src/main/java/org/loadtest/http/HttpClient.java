@@ -13,11 +13,11 @@ public class HttpClient {
     public static final int NANO_TO_MILLIS = 1_000_000;
 
     public static HttpResponse sendRequest(final HttpRequest request) throws Exception {
-        final URL url = new URL(request.getUrl());
+        final URL url = request.getUrl();
         final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod(request.getMethod());
-        if (request.getConnectionTimeout() > 0) {
-            connection.setConnectTimeout(request.getConnectionTimeout());
+        if (request.getConnectionTimeoutMillis() > 0) {
+            connection.setConnectTimeout(request.getConnectionTimeoutMillis());
         }
         final int responseCode = connection.getResponseCode();
         final long startTime = System.nanoTime();
