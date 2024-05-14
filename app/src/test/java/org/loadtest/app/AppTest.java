@@ -5,10 +5,35 @@ package org.loadtest.app;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
-    @Test void testApp() {
-        assertEquals(1, 1);
+    @Test
+    public void testApp() {
+        boolean failed = false;
+        try {
+            App.loadtestConfigFromArgs(new String[]{"google", "get", "10", "1"});
+        } catch (Exception ex) {
+            failed = true;
+        }
+        assertTrue(failed);
+        try {
+            App.loadtestConfigFromArgs(new String[]{"google", "get", "10", "1"});
+        } catch (Exception ex) {
+            failed = true;
+        }
+        assertTrue(failed);
+        try {
+            App.loadtestConfigFromArgs(new String[]{"https://www.google.com", "delete", "10", "1"});
+        } catch (Exception ex) {
+            failed = true;
+        }
+        assertTrue(failed);
+        try {
+            App.loadtestConfigFromArgs(new String[]{"https://www.google.com", "get", "10", "1"});
+        } catch (Exception ex) {
+            failed = true;
+        }
+        assertFalse(failed);
     }
 }
