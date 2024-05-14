@@ -9,7 +9,7 @@ It supports generating concurrent HTTP requests at a specified QPS rate, collect
 # Basic commands
 - Building the project: `./gradlew clean build`
 - Running unit tests: `./gradlew :test`
-- Launching locally: `./gradlew :app:run --args="https://www.google.com 10 30 10"`
+- Launching locally: `./gradlew :app:run --args="<url> <method> <qps> <duration>"`
 
 # API
 
