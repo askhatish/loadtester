@@ -2,20 +2,24 @@ package org.loadtest.metrics;
 
 import org.loadtest.http.HttpResponse;
 
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.DoubleAdder;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Metrics {
-    private final AtomicInteger totalRequests;
-    private final AtomicInteger errorCount;
-    private final DoubleAdder totalLatency;
+    final static int MAX_CAPACITY = 500000;
+    private final AtomicLong totalRequests;
+    private final AtomicLong errorCount;
+    private final LinkedBlockingDeque<Double> latencyQueue;
 
     private static volatile Metrics instance;
 
     private Metrics() {
-        totalLatency = new DoubleAdder();
-        errorCount = new AtomicInteger();
-        totalRequests = new AtomicInteger();
+        latencyQueue = new LinkedBlockingDeque<Double>(MAX_CAPACITY);
+        errorCount = new AtomicLong();
+        totalRequests = new AtomicLong();
     }
 
     public static Metrics getInstance() {
@@ -31,17 +35,27 @@ public class Metrics {
 
     public synchronized void record(HttpResponse response) {
         totalRequests.incrementAndGet();
-        totalLatency.add(response.getLatencyMillis());
+        latencyQueue.add(response.getLatencyMillis());
+        if (latencyQueue.size() >= MAX_CAPACITY) {
+            latencyQueue.poll();
+        }
         if (response.getResponseCode() >= 400) {
             errorCount.incrementAndGet();
         }
     }
 
+    public synchronized LoadtesMetrics getLoadtestMetrics() {
+        System.out.println("Get loadtest metrics, size: " + latencyQueue.size() + " requests: " + totalRequests.get() + " errors: " + errorCount.get());
+        List<Double> latencies = new ArrayList<Double>();
+        latencyQueue.drainTo(latencies);
+        Collections.sort(latencies);
+        return new LoadtesMetrics(totalRequests.get(), errorCount.get(), latencies);
+    }
+
     public synchronized void printReport() {
-        double errorRate = (double) errorCount.get() / totalRequests.get() * 100;
-        double avgLatency = totalLatency.sum() / totalRequests.get();
-        System.out.println("Total Requests: " + totalRequests.get());
-        System.out.println("Error Rate: " + String.format("%.2f%%", errorRate));
-        System.out.println("Average Latency: " + String.format("%.2f ms", avgLatency));
+        LoadtesMetrics metrics = getLoadtestMetrics();
+        System.out.println("Total Requests: " + metrics.getTotalRequests());
+        System.out.println("Error Rate: " + String.format("%.2f%%", metrics.getErrorPercentage()));
+        System.out.println("Average Latency: " + String.format("%.2f ms", metrics.getAverageLatency()));
     }
 }

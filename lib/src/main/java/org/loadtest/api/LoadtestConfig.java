@@ -5,7 +5,6 @@ import java.net.URL;
 /**
  * This is the class contains settings for the load test. All the tweaks and params should go here
  */
-
 public class LoadtestConfig {
 
     private URL url;
