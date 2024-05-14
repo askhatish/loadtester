@@ -3,7 +3,7 @@
  */
 package org.example.utilities;
 
-import org.example.list.LinkedList;
+import java.util.LinkedList;
 
 class JoinUtils {
     public static String join(LinkedList source) {
