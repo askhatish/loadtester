@@ -37,7 +37,7 @@ public class App {
                 metrics.getAverageLatency(), metrics.getLatencyPercentile(50), metrics.getLatencyPercentile(90));
     }
 
-    private static LoadtestConfig loadtestConfigFromArgs(String[] args) {
+    public static LoadtestConfig loadtestConfigFromArgs(String[] args) {
         if (args.length != 4) {
             System.out.println("Usage: ./gradlew :app:run --args=\"<url> <method> <qps> <duration>\"");
             System.exit(1);
