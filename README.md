@@ -11,6 +11,10 @@ It supports generating concurrent HTTP requests at a specified QPS rate, collect
 - Running unit tests: `./gradlew :test`
 - Launching locally: `./gradlew :app:run --args="<url> <method> <qps> <duration>"`
 
+# Docker
+- Build image: `docker build -t loadtester .`
+- Run the container with the built image: `docker run -it loadtester --args='https://www.google.com GET 10 30'`
+
 # API
 
 
