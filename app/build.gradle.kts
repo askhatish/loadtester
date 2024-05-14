@@ -8,10 +8,11 @@ plugins {
 
 dependencies {
     implementation("org.apache.commons:commons-text")
-    implementation(project(":utilities"))
+    implementation(project(":lib"))
 }
 
 application {
     // Define the main class for the application.
-    mainClass = "org.example.app.App"
+    mainClass = "org.loadtest.app.App"
 }
+
